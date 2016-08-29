@@ -1,114 +1,44 @@
-<script async src="{{"static/js/count_page.js"| prepend: site.baseurl }}"></script>
-<!-- <script async src="{{"static/js/count_page.js"| prepend: site.baseurl }}"></script> -->
-  <!-- Baidu analytics -->
-  {% if site.ba %}
-    <script>
-        var _hmt = _hmt || [];
-        (function() {
-          var hm = document.createElement("script");
-          hm.src = "//hm.baidu.com/hm.js?{{ site.ba.uuid }}";
-          var s = document.getElementsByTagName("script")[0];
-          s.parentNode.insertBefore(hm, s);
-        })();
-    </script>
-  {% endif %}
+{% assign my = site.my %}
+<footer id="l-footer">
+    <div class="container">
+        <div class="row">
+            <div id="contact" class="col-lg-6 col-lg-offset-1 col-md-6 col-md-offset-1 col-sm-9">
+                <h3>CONTACT</h3>
+                <div class="row">
+                    <address id="address" class="col-lg-6 col-md-6 col-sm-6">
+                        {{ my.contact.address.country }} {{ my.contact.address.state }} {{ my.contact.address.city }}<br>
+                        {{ my.contact.address.distribute }}, {{ my.contact.address.postcode }}<br>
+                        {{ my.contact.address.cell }}<br>
+                        {{ my.realName }}<br>
+                    </address>
 
-  <!-- Google analytics -->
-  {% if site.ga %}
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+                    <ul class="col-lg-6 col-md-6 col-sm-6">
+                        <li class="qq"><i class="fa fa-qq"></i> &nbsp;&nbsp;{{ my.contact.qq }}</li>
+                        <li class="email"><i class="fa fa-envelope"></i> <a href="mailto:{{ my.contact.email }}"> &nbsp;&nbsp;{{ my.contact.email }}</a></li>
+                        <li class="tel"><i class="fa fa-mobile"></i> <a href="tel:15671542698">&nbsp;&nbsp; {{ my.contact.tel }}</a></li>
+                        <li class="github"><i class="fa fa-github"></i> <a href="{{ my.contact.github }}"> &nbsp;&nbsp;{{ my.contact.github }}</a></li>
+                    </ul>
+                </div>
+            </div>
 
-      ga('create', '{{ site.ga.id }}', 'auto');
-      ga('send', 'pageview');
+            <div id="rss" class="col-lg-2 col-md-2 col-sm-2">
+                    <h3>SUBSCRIBE<br>
+                    via</h3>
+                <a href="feed.xml">
+                    <i class="rss fa fa-rss-square"></i>
+                </a>
+            </div>
+        </div>
 
-    </script>
-  {% endif %}
+        <p id="legal">
+            Copyright (c) 2015 {{ my.displayName }} | Powered by <a href="http://jekyllrb.com">Jekyll</a> &amp; <a href="http://github.com">GitHub</a> | designed &amp; build by <a href="http://unifreak.github.io">UniFreak</a>
+        </p>
+    </div>
+</footer>
 
-  {% if site.disqus %}
-  <script type="text/javascript">
-      var disqusShortName = "{{ site.disqus.name }}";
+<script type="text/javascript" src="{{crturl}}javascripts/base.js"></script>
 
-      var disqusPublicKey = "{{ site.disqus.public_key }}";
-
-      var urlArray = [];
-      $('.disqus-comment-count').each(function () {
-        var url = $(this).attr('data-disqus-url');
-        urlArray.push('link:' + url);
-      });
-      $.ajax({
-        type: 'GET',
-        url: "https://disqus.com/api/3.0/threads/set.jsonp",
-        data: { api_key: disqusPublicKey, forum : disqusShortName, thread : urlArray },
-        cache: false,
-        dataType: "jsonp",
-        success: function (result) {
-          for (var i in result.response) {
-            var count = result.response[i].posts;
-            if ( count ) {
-              $('.disqus-comment-count[data-disqus-url="' + result.response[i].link + '"]').html(count);
-            }
-          }
-        }
-      });
-  </script>
-  {% endif %}
-  {% if site.changyan %}
-  <script id="cy_cmt_num" src="http://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cysfY7ULn"></script>
-  {% endif %}
-  <script>
-
-      $(document).ready(function () {
-
-          $('body').scrollspy({
-              target: '.navbar-fixed-top',
-              offset: 80
-          });
-
-          // Page scrolling feature
-          $('a.page-scroll').bind('click', function(event) {
-              var link = $(this);
-              $('html, body').stop().animate({
-                  scrollTop: $(link.attr('href')).offset().top - 50
-              }, 500);
-              event.preventDefault();
-              $("#navbar").collapse('hide');
-          });
-      });
-
-      var cbpAnimatedHeader = (function() {
-          var docElem = document.documentElement,
-                  header = document.querySelector( '.navbar-default' ),
-                  didScroll = false,
-                  changeHeaderOn = 200;
-          function init() {
-              window.addEventListener( 'scroll', function( event ) {
-                  if( !didScroll ) {
-                      didScroll = true;
-                      setTimeout( scrollPage, 250 );
-                  }
-              }, false );
-          }
-          function scrollPage() {
-              var sy = scrollY();
-              if ( sy >= changeHeaderOn ) {
-                  $(header).addClass('navbar-scroll')
-              }
-              else {
-                  $(header).removeClass('navbar-scroll')
-              }
-              didScroll = false;
-          }
-          function scrollY() {
-              return window.pageYOffset || docElem.scrollTop;
-          }
-          init();
-
-      })();
-
-      // Activate WOW.js plugin for animation on scrol
-      new WOW().init();
-
-  </script>
+{% if site.mode != 'dev' %}
+<!-- 百度统计 -->
+<script type="text/javascript" src="{{crturl}}javascripts/baidu_statistics.js"></script>
+{% endif %}
