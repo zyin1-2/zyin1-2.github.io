@@ -9,6 +9,7 @@ body {
 .readmore {
 	margin-right: 5px;
 }
+h2{font-size:24px;}
 .navbar-nav {
     float: right;
     margin: 0;
@@ -83,7 +84,7 @@ a:focus, a:hover {
 }
 img {
     vertical-align: middle;
-    float: left;
+    /*float: left;*/
     padding-right: 10px;
     padding-bottom: 5px;
 }
