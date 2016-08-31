@@ -10,12 +10,11 @@
                 	<div class="post-list" style="list-style-type: none;">
 						{% for post in paginator.posts %} 	
 							<h2>
-								<img class="title-image" src="{{ "/img/dna.png" | prepend: site.baseurl }}"/>
 								<a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
 							</h2>
-							<div class="author" style="margin-bottom:10px;">所属分类：
-								{{ post.category}}
-								<span class="post-meta"><i class="fa fa-calendar"></i> {{ post.date | date: "%b %-d, %Y" }}</span>
+							<div class="author" style="margin-top:5px; margin-bottom:15px; color:#999; font-size:14px;">所属分类：
+								{{ post.category}} &nbsp;
+								<span class="post-meta"><i class="fa fa-calendar"></i> {{ post.date | date: "%Y年%m月%-d日" }}</span>
 							</div>
 							<div class="excerpt">{{ post.excerpt }}</div>
 							<div class="readmore" style="float: left;">
@@ -28,14 +27,6 @@
 						<div class="post-list" style="list-style-type: none;">			
 							{% endfor %} 
 						</div>
-					<!-- Pagination links -->
-				<span class='st_sharethis' displayText='ShareThis'></span>
-				<span class='st_facebook' displayText='Facebook'></span>
-				<span class='st_twitter' displayText='Tweet'></span>
-				<span class='st_linkedin' displayText='LinkedIn'></span>
-				<span class='st_pinterest' displayText='Pinterest'></span>
-				<span class='st_email' displayText='Email'></span>
-					<!-- Pagination links -->
 					<div class="pagination">
 					  <ul>
 						{% if paginator.previous_page %}
@@ -119,7 +110,7 @@
                 		<ul class="posts" span="recent">  
 							{% for post in site.posts limit:5 %}  
 							   <li>  
-								   <span>{{ post.date | date_to_string }}</span>
+								   <span>{{ post.date | date: "%Y-%m-%-d" }}</span>
 								   <a href="{{ BASE_PATH }}{{ post.url }}">  
 								   {{ post.title }}</a>  
 							   </li>  
@@ -143,5 +134,4 @@
             </div>
         </div>
         <!-- /.row -->
-       <hr>
       </div>
