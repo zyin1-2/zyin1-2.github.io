@@ -9,9 +9,6 @@ body {
 .readmore {
 	margin-right: 5px;
 }
-
-h1{font-size:26px;}
-h2{font-size:24px;}
 .navbar-nav {
     float: right;
     margin: 0;
@@ -86,7 +83,7 @@ a:focus, a:hover {
 }
 img {
     vertical-align: middle;
-    /*float: left;*/
+    float: left;
     padding-right: 10px;
     padding-bottom: 5px;
 }
@@ -148,10 +145,4 @@ background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif;
 }
 ul.posts {
 list-style-image: url('../img/code.png');"
-}
-
-footer{
-	padding:15px 0;
-	color:#fff;
-	background:#333;
 }
