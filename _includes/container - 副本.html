@@ -1,0 +1,137 @@
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+
+            <!-- Blog Post Content Column -->
+            <div class="col-lg-8">
+                <!-- Blog Post -->
+                	<div class="post-list" style="list-style-type: none;">
+						{% for post in paginator.posts %} 	
+							<h2>
+								<a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+							</h2>
+							<div class="author" style="margin-top:5px; margin-bottom:15px; color:#999; font-size:14px;">所属分类：
+								{{ post.category}} &nbsp;
+								<span class="post-meta"><i class="fa fa-calendar"></i> {{ post.date | date: "%Y年%m月%-d日" }}</span>
+							</div>
+							<div class="excerpt">{{ post.excerpt }}</div>
+							<div class="readmore" style="float: left;">
+								{% if post.content | post_contains_excerpt_tag %}
+									<a href="{{ post.url | prepend: site.baseurl }}">详情</a>
+								{% endif %}
+							</div>								
+					</div>
+					<hr>
+						<div class="post-list" style="list-style-type: none;">			
+							{% endfor %} 
+						</div>
+					<div class="pagination">
+					  <ul>
+						{% if paginator.previous_page %}
+
+						  {% if paginator.previous_page == 1 %}
+							<li><a href="/">Previous</a></li>
+						  {% else %}
+							<li><a href="/page{{ paginator.previous_page }}">Previous</a></li>
+						  {% endif %}
+
+						{% else %}
+						  <li><span class="disabled">Previous</span></li>
+						{% endif %}
+
+						{% if paginator.page == 1 %}
+						  <li><span class="active">1</span></li>
+						{% else %}
+						  <li><a href="/">1</a></li>
+						{% endif %}
+
+						{% for count in (2..paginator.total_pages) %}
+
+						  {% if count == paginator.page %}
+							<li><span class="active">{{ count }}</span></li>
+						  {% else %}
+							<li><a href="/page{{ count }}">{{ count }}</a></li>
+						  {% endif %}
+						{% endfor %}
+
+						{% if paginator.next_page %}
+						  <li><a href="/page{{ paginator.next_page }}">Next</a></li>
+						{% else %}
+						  <li><span class="disabled">Next</span></li>
+						{% endif %}
+					  </ul>
+					</div>
+            </div>
+
+            <!-- Widget -->
+            <div class="col-md-4">
+
+                <!-- Blog Search -->
+                <div class="well">
+                    <h4>搜索</h4>
+                    <div class="input-group">
+					<form action="http://www.google.com" id="cse-search-box">
+					  <div>
+					    <input type="hidden" name="cx" value="" />
+					    <input type="hidden" name="ie" value="UTF-8" />
+					    <input type="text" name="q" size="20" />
+					    <input type="submit" name="sa" value="Search" />
+					  </div>
+					</form>
+					<!--<script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>-->
+				</div>
+            </div>
+                <!-- Blog Categories -->
+                <div class="well">
+                    <h4>分类</h4>
+                    <div class="row">
+                        <div class="col-lg-6">
+								{% for cat in site.categories %}
+								{% assign cat_name = cat | first %}
+								{% assign cat_size = cat | last | size %}
+								{% assign cat_slug = cat_name | slugify  %}
+									<a class="bold" href="/category/{{cat_slug | prepend: site.baseurl}}">
+										{{cat_name}} ({{cat_size}})
+									</a>
+                        </div>
+                        <div class="col-lg-6">
+                        	{% endfor %}
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- end -->
+
+                <!-- Recents post -->
+                <div class="well">
+                	<h4>最近文章</h4>
+                		<ul class="posts" span="recent">  
+							{% for post in site.posts limit:5 %}  
+							   <li>  
+								   <span>{{ post.date | date: "%Y-%m-%-d" }}</span>
+								   <a href="{{ BASE_PATH }}{{ post.url }}">  
+								   {{ post.title }}</a>  
+							   </li>  
+							{% endfor %}  
+						</ul>
+                </div>
+                <!-- tags widget -->
+                <div class="well">
+                    <h4>标签</h4>
+                        <ul>
+                            {% for tag in site.tags %}
+                            {% assign tag_name = tag | first %}
+                            {% assign tag_size = tag | last | size %}
+                            {% assign tag_slug = tag_name | slugify  %}
+                                <a class="tag-label bold" href="/tag/{{tag_slug | prepend: site.baseurl}}">
+                                    {{tag_name}} ({{tag_size}})
+                                </a>
+                            {% endfor %}
+                        </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+      </div>
