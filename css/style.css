@@ -4,6 +4,7 @@
  */
 
 body { 
+	font-family:微软雅黑;
     background-image: url('../img/body.png');
  }
 .readmore {
@@ -147,10 +148,13 @@ a h2{
 background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif;
 }
 ul.posts {
-	padding-left:25px;
-	list-style-image: url('../img/code.png');
+	list-style-type: none;
 }
-
+ul.posts li{
+	line-height:24px;
+	padding-left:28px;
+	background:url(../img/code.png) no-repeat center left;
+}
 footer{
 	padding:15px 0;
 	color:#fff;
@@ -190,9 +194,15 @@ footer{
 	color:#fff;
 	background:#02b4e1;
 }
-.writeCon .a1:active,.a1:link,.a1:visited{color:#fff; text-decoration:none;}
+.writeCon .a1:active,.a1:link,.a1:visited{
+	color:#fff; 
+	text-decoration:none;
+}
 .writeCon .a2{ cursor:not-allowed;}
-.writeCon .con{ line-height:24px;}
+.writeCon .con{ 
+	line-height:26px;
+	padding:5px;
+}
 
 
 
