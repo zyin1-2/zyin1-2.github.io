@@ -9,7 +9,7 @@ body {
 .readmore {
 	margin-right: 5px;
 }
-
+ul{padding:0;margin:0;}
 h1{font-size:26px;}
 h2{font-size:24px;}
 .navbar-nav {
@@ -147,7 +147,8 @@ a h2{
 background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif;
 }
 ul.posts {
-list-style-image: url('../img/code.png');"
+	padding-left:25px;
+	list-style-image: url('../img/code.png');
 }
 
 footer{
@@ -155,3 +156,50 @@ footer{
 	color:#fff;
 	background:#333;
 }
+
+/*编写部分样式*/
+.writeCon img{
+	max-width:100%;
+}
+.writeCon .cont{
+	padding:15px;
+	border-radius:10px;
+	margin-bottom:10px;
+	text-align:center;
+	background:#eee;  
+}
+.writeCon .cont img{
+	display:block;
+	margin:0 auto;
+	border-radius:10px;
+	max-width:100%;
+}
+.writeCon .a1{
+	width:22%;
+	margin:10px 13%;
+	padding:6px 8px;
+	font-size:16px;
+	color:#fff;
+	text-align:center;
+	display:inline-block;
+	border-radius:4px;
+	background:#00ccff;
+}
+.writeCon .a1:hover{
+	text-decoration:none;
+	color:#fff;
+	background:#02b4e1;
+}
+.writeCon .a1:active,.a1:link,.a1:visited{color:#fff; text-decoration:none;}
+.writeCon .a2{ cursor:not-allowed;}
+.writeCon .con{ line-height:24px;}
+
+
+
+
+
+
+
+
+
+
