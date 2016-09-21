@@ -9,25 +9,16 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">About</a>
+                    {% for cat in site.categories %}
+                    {% assign cat_name = cat | first %}
+                    {% assign cat_size = cat | last | size %}
+                    {% assign cat_slug = cat_name | slugify  %}
+                        <a class="bold" href="/category/{{cat_slug | prepend: site.baseurl}}">
+                            {{cat_name}}
+                        </a>
                 </li>
                 <li>
-                    <a href="#">Services</a>
-                </li>
-                <li>
-                    <a href="#">Portfolio</a>
-                </li>
-                <li>
-                    <a href="#">Events</a>
-                </li>
-                <li>
-                    <a href="#">Blog</a>
-                </li>
-                <li>
-                    <a href="#">FAQ</a>
-                </li>
-                <li>
-                    <a href="#">Contact</a>
+                    {% endfor %}
                 </li>
             </ul>
         </div>
