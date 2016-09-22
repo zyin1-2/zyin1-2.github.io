@@ -9,7 +9,8 @@ tags: [mobile , jquery , json]
 author: zyin
 ---
     <style>
-      
+      p{ line-height:23px;}
+	  pre>code{color:#c7254e;}
     </style>
     <div class="writeCon">
         <div class="cont"><img src="{{ site.baseurl }}/img/2.jpg"></div>
@@ -22,29 +23,29 @@ author: zyin
         </p>
         <strong>HTML</strong><br />
 
-        首先在head中载入jquery库和cityselect插件。
+        <p>首先在head中载入jquery库和cityselect插件。</p>
         <pre>
             <code>
                 &lt;script type="text/javascript" src="js/jquery.js">&lt;/script&gt; 
                 &lt;script type="text/javascript" src="js/jquery.cityselect.js">&lt;/script&gt; 
             </code>
         </pre>
-        接下来，我们在#city中，放置三个select，并且三个select分别设置class属性为：prov、city、dist，分别表示省、市、区（县）三个下拉框。注意如果只想实现省市二级联动，则去掉第三个dist的select即可。
+        <p>接下来，我们在#city中，放置三个select，并且三个select分别设置class属性为：prov、city、dist，分别表示省、市、区（县）三个下拉框。注意如果只想实现省市二级联动，则去掉第三个dist的select即可。</p>
         <pre>
             <code>
-                <div id="city"> 
-                    &lt;select class="prov"&gt;&lt;/select&gt;  
-                    &lt;select class="city" disabled="disabled"&gt;&lt;/select&gt; 
-                    &lt;select class="dist" disabled="disabled"&gt;&lt;/select&gt;
+                <div id="city">
+                &lt;select class="prov"&gt;&lt;/select&gt;  
+                &lt;select class="city" disabled="disabled"&gt;&lt;/select&gt; 
+                &lt;select class="dist" disabled="disabled"&gt;&lt;/select&gt;
                 </div>
             </code>
         </pre>
         <strong>jQuery</strong><br />
 
-		调用cityselect插件非常简单，直接调用：
+		<p>调用cityselect插件非常简单，直接调用：</p>
         <pre>
             <code>
-              
+               $("#city").citySelect();
             </code>
         </pre>
     </div>
