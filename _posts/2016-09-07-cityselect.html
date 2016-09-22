@@ -1,16 +1,14 @@
 ---
 layout: post
 title:  "省市联动"
+author: zyin
 date:   2016-09-08
 category: cityselect
 tags: [mobile , jquery , json]
-
-# Author.
-author: zyin
 ---
     <style>
-      p{ line-height:23px;}
-	  pre>code{color:#c7254e;}
+      p,strong{ line-height:23px;}
+	  pre>code{color:#c7254e; text-align: left;}
     </style>
     <div class="writeCon">
         <div class="cont"><img src="{{ site.baseurl }}/img/2.jpg"></div>
@@ -23,7 +21,7 @@ author: zyin
         </p>
         <strong>HTML</strong><br />
 
-        <p>首先在head中载入jquery库和cityselect插件。</p>
+        <p>首先在head中载入jquery库和cityselect插件。</p> 
         <pre>
             <code>
                 &lt;script type="text/javascript" src="js/jquery.js">&lt;/script&gt; 
@@ -48,6 +46,46 @@ author: zyin
                $("#city").citySelect();
             </code>
         </pre>
+        <p>自定义参数调用，设置默认省市区。</p>
+        <pre>
+            <code>
+               $("#city").citySelect({  
+                    url:"js/city.min.js",  
+                    prov:"湖南", //省份 
+                    city:"长沙", //城市 
+                    dist:"岳麓区", //区县 
+                    nodata:"none" //当子集无数据时，隐藏select 
+                });  
+            </code>
+        </pre>
+        <p>当然，你还可以扩展，自定义下拉列表选项数据，你可以根据需要设置下拉内容，注意数据格式一定要为JSON格式。</p>
+
+  		<pre>
+            <code>
+                $("#city").citySelect({ 
+                    url:{"citylist":[ 
+                        {"p":"前端技术","c":[{"n":"HTML"},{"n":"CSS","a":[{"s":"CSS2.0"},{"s":"CSS3.0"}]}, 
+                        {"n":"JAVASCIPT"}]}, 
+                        {"p":"编程语言","c":[{"n":"C"},{"n":"C++"},{"n":"PHP"},{"n":"JAVA"}]}, 
+                        {"p":"数据库","c":[{"n":"Mysql"},{"n":"SqlServer"},{"n":"Oracle"}]}, 
+                    ]}, 
+                    prov:"", 
+                    city:"", 
+                    dist:"", 
+                    nodata:"none" 
+                }); 
+             </code>
+        </pre>
+		<p>你还可以利用PHP等后台语言将数据库中的数据转换成JSON格式，然后使用url参数指向后台地址也能实现无刷新联动效果。</p>
+
+		 <pre>
+            <code> 
+                $("#city").citySelect({ 
+                    url:"data.php" 
+                }); 
+             </code>
+        </pre>       
+
     </div>
     
     
