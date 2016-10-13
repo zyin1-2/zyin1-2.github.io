@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>zeroModal demo</title>
+    <link rel="stylesheet" type="text/css" href="./zeroModal.css" />
+    <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+    <script src="./zeroModal.js"></script>
+    <style type="text/css">
+    ul li {
+        line-height: 19px;
+        font-size: 13px;
+    }
+    </style>
+</head>
+
+<body>
+    <ul>
+        <li><a href="javascript:_basic()">basic</a></li>
+        <li><a href="javascript:_params()">带标题</a></li>
+        <li><a href="javascript:_button()">带按钮</a></li>
+        <li><a href="javascript:_setsize()">自定义尺寸(px、pt、%)</a></li>
+        <li><a href="javascript:_notoverlay()">不要遮罩</a></li>
+        <li><a href="javascript:_iframe()">嵌套iframe</a></li>
+        <li><a href="javascript:_esc()">支持esc键退出</a></li>
+    </ul>
+   
+    <ul>
+        <li>
+            <a href="javascript:_alert1()">alert1</a>&nbsp;&nbsp;
+            <a href="javascript:_alert2()">alert2</a>&nbsp;&nbsp;
+        </li>
+        <li>
+            <a href="javascript:_confirm1()">confirm1</a>&nbsp;&nbsp;
+            <a href="javascript:_confirm2()">confirm2</a>&nbsp;&nbsp;
+        </li>
+        <li>
+            <a href="javascript:_error()">error</a>&nbsp;&nbsp;
+            <a href="javascript:_success()">success</a>&nbsp;&nbsp;
+        </li>
+    </ul>
+    
+     <ul>
+        <li><a href="javascript:_loading(1)">loading1</a></li>
+        <li><a href="javascript:_loading(2)">loading2</a></li>
+    </ul>
+    <!--<div style="height:1500px"></div>
+    <a href="javascript:_basic()">basic</a>-->
+    <script>
+    function _basic() {
+        zeroModal.show();
+    }
+
+    function _params() {
+        zeroModal.show({
+            title: 'hello world',
+            content: 'this is zeroModal'
+        });
+    }
+
+    function _button() {
+        zeroModal.show({
+            title: 'hello world',
+            content: 'this is zeroModal',
+            ok: true,
+            cancel: true,
+            okFn: function() {
+                alert('clicked ok and not close');
+                return false;
+            }
+        });
+    }
+
+    function _setsize() {
+        zeroModal.show({
+            title: 'hello world',
+            content: 'this is zeroModal',
+            width: '60%',
+            height: '40%'
+        });
+    }
+
+    function _notoverlay() {
+        zeroModal.show({
+            title: 'hello world',
+            content: 'this is zeroModal',
+            width: '60%',
+            height: '40%',
+            overlay: false
+        });
+    }
+
+    function _iframe() {
+        zeroModal.show({
+            title: 'hello world',
+            iframe: true,
+            url: 'http://www.baidu.com',
+            width: '80%',
+            height: '80%',
+            cancel: true
+        });
+    }
+
+    function _esc() {
+        zeroModal.show({
+            title: 'hello world',
+            content: 'this is zeroModal',
+            esc: true
+        });
+    }
+
+    function _loading(type) {
+        zeroModal.loading(type);
+    }
+
+    function _alert1() {
+        zeroModal.alert('请选择数据进行操作!');
+    }
+
+    function _alert2() {
+        zeroModal.alert({
+            content: '操作提示!',
+            contentDetail: '请选择数据后再进行操作！',
+            okFn: function() {
+                alert('ok callback');
+            }
+        });
+    }
+
+    function _confirm1() {
+        zeroModal.confirm("确定提交审核吗？", function() {
+            alert('ok');
+            //return false;
+        });
+    }
+
+    function _confirm2() {
+        zeroModal.confirm({
+            content: '确定提交审核吗？',
+            contentDetail: '提交后将不能进行修改。',
+            okFn: function() {
+                alert('ok');
+            },
+            cancelFn: function() {
+                alert('cancel');
+            }
+        });
+    }
+
+    function _error() {
+        zeroModal.error('请选择数据进行操作!');
+    }
+
+    function _success() {
+        zeroModal.success('操作成功!');
+    }
+    </script>
+</body>
+
+</html>

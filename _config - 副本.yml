@@ -21,4 +21,4 @@ markdown: kramdown
 paginate: 5
 paginate_path: 'page:num/'
 comments: true
-excerpt_separator: "<!-- more -->"
+excerpt_separator: <!-- more -->
