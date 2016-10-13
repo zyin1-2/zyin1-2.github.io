@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>压缩图片</title>
+    <style>
+		body{ background:#f3f3f3;}
+    	.cut{
+			width:100%;
+			height:100%;
+			position:fixed;
+			top:0;
+			left:50%;
+			-webkit-transform:translate(-50%,0);
+					transform:translate(-50%,0);
+			z-index:9;
+			background:#000;
+			display:none;
+		}
+		.cut .mask{
+			width:100%;
+			height:100%;
+			position:absolute;
+			top:0;
+			left:0;
+			z-index:2;
+			background:url(images/mask.png) no-repeat center center;
+			pointer-events:none;
+		}
+		.cut .btns{
+			width:100%;
+			text-align:center;
+			font-size:0;
+			position:absolute;
+			left:0;
+			bottom:10%;
+			z-index:3;
+		}
+		.cut .btns a{
+			display:inline-block;
+			width:80px;
+			height:30px;
+			line-height:30px;
+			background:#a40000;
+			color:#fff;
+			text-align:center;
+			margin:0 10px;
+			font-size:14px;
+		}
+    </style>
+</head>
+
+<body>
+	<img src="images/user.jpg" class="okImg"><br>
+    <input type="file" name="pic" class="pic" id="uploadfile" accept="image/*" capture="camera" onchange="selectFileImage(this)"/>
+    <div class="cut">
+    	<div class="mask"></div>
+        <img src="images/user.jpg" id="hit">
+        <div class="btns">
+       		<a href="javascript:void(0)" class="reChoose">重新选择</a>
+            <a href="javascript:void(0)" class="cutBtn">确定裁切</a>
+        </div>
+    </div>
+    
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="scripts/exif.js"></script>
+    <script src="scripts/hammer.min.js"></script>
+    <script>
+		var winW=$(window).width();
+			tu="",//上传的图片后第一次处理好的src
+			intW=800,//图片的最大宽度
+			imgW=0,//处理好的图片的宽
+			imgH=0,//处理好的图片的高
+			x=0,//图片X方向位移
+			y=0,//图片Y方向位移
+			s=1,//图片缩放比例
+			cutImgW=200,//裁切区域的宽
+			cutImgH=200;//裁切区域的高
+		function selectFileImage(fileObj) {
+			var file = fileObj.files['0'];  
+			var Orientation = null;  
+			if (file) {  
+				console.log("正在上传,请稍后...");  
+				var rFilter = /^(image\/jpeg|image\/png)$/i; // 检查图片格式  
+				if (!rFilter.test(file.type)) {  
+					alert("请选择jpeg、png格式的图片");  
+					return;  
+				}    
+				//获取照片方向角属性，用户旋转控制  
+				EXIF.getData(file, function() {  
+					EXIF.getAllTags(this);   
+					Orientation = EXIF.getTag(this, 'Orientation');  
+	
+				});  
+				var oReader = new FileReader();  
+				oReader.onload = function(e) {  
+					var image = new Image();  
+					image.src = e.target.result;  
+					image.onload = function() {  
+						var w = this.naturalWidth;  //获取图片原始大小
+						var h = this.naturalHeight;  
+						var expectWidth,expectHeight;
+						if (w > intW) {  
+							expectWidth = intW;  
+							expectHeight = expectWidth*h/w;  
+						}else{
+							expectWidth=w;
+							expectHeight=h;
+						}
+						var canvas = document.createElement("canvas");  
+						var ctx = canvas.getContext("2d");  
+						canvas.width = expectWidth;  
+						canvas.height = expectHeight;  
+						var base64 = null;  
+						var xpos = canvas.width/2;
+						var ypos = canvas.height/2;
+						//如果方向角不为1，都需要进行旋转  
+						if(Orientation && Orientation != "" && Orientation != 1){  
+							var degree=0;
+							switch(Orientation){  
+								case 6://需要顺时针（向左）90度旋转  
+									degree=90;  
+									canvas.width = expectHeight;  
+									canvas.height = expectWidth;
+									ctx.rotate(degree * Math.PI / 180);
+									ctx.drawImage(image, 0,-expectHeight,expectWidth,expectHeight);
+									break;  
+								case 8://需要逆时针（向右）90度旋转  ;
+									degree=-90;  
+									canvas.width = expectHeight;  
+									canvas.height = expectWidth;
+									ctx.rotate(degree * Math.PI / 180);
+									ctx.drawImage(image,-expectWidth,0,expectWidth,expectHeight);
+									break;  
+								case 3://需要180度旋转  
+									degree=-180;  
+									ctx.rotate(degree * Math.PI / 180);
+									ctx.drawImage(image,-expectWidth,-expectHeight,expectWidth,expectHeight);
+									break;  
+							}         
+						}else{
+							ctx.drawImage(image,0,0,expectWidth,expectHeight);
+						} 
+						tu=canvas.toDataURL("image/jpeg");
+						console.log(tu);
+						cutShow(tu);
+					};  
+				};  
+				oReader.readAsDataURL(file);  
+			}  
+		}
+		function cutShow(url){
+			var img=new Image();
+			img.src=url;
+			img.onload=function(){
+				imgW = this.naturalWidth;  
+				imgH = this.naturalHeight;
+				$("#hit").attr("src",url);
+				$("#hit").width(imgW);
+				$("#hit").height(imgH);
+				$(".cut").show();
+				$("#loading").hide();
+				var reqAnimationFrame = (function () {
+					return window[Hammer.prefixed(window, 'requestAnimationFrame')] || function (callback) {
+						window.setTimeout(callback, 1000 / 60);
+					};
+				})();
+				var el = document.querySelector("#hit");
+				var START_X = Math.round((winW - el.offsetWidth) / 2);
+				var START_Y = Math.round((window.innerHeight - el.offsetHeight) / 2);
+				var ticking = false;
+				var transform;
+				var timer;
+				var mc = new Hammer.Manager(el);
+				mc.add(new Hammer.Pan({ threshold: 0, pointers: 0 }));
+				mc.add(new Hammer.Pinch({ threshold: 0 })).recognizeWith([mc.get('pan')]);
+				mc.on("panstart pinchstart", start);
+				mc.on("panmove", onPan);
+				mc.on("pinchmove", onPinch);
+				function resetElement() {
+					el.className = 'animate';
+					transform = {
+						translate: { x: START_X, y: START_Y },
+						scale: 1,
+						angle: 0,
+						rx: 0,
+						ry: 0,
+						rz: 0
+					};
+					requestElementUpdate();
+				}
+				function updateElementTransform() {
+					var value = [
+						'translate3d(' + transform.translate.x + 'px, ' + transform.translate.y + 'px, 0)',
+						'scale(' + transform.scale + ', ' + transform.scale + ')',
+						'rotate3d('+ transform.rx +','+ transform.ry +','+ transform.rz +','+  transform.angle + 'deg)'
+					];
+					value = value.join(" ");
+					el.textContent = value;
+					el.style.webkitTransform = value;
+					el.style.mozTransform = value;
+					el.style.transform = value;
+					ticking = false;
+				}
+				function requestElementUpdate() {
+					if(!ticking) {
+						reqAnimationFrame(updateElementTransform);
+						ticking = true;
+					}
+				}
+				function start(){
+					x=transform.translate.x;
+					y=transform.translate.y;
+					s=transform.scale;
+				}
+				function onPan(ev) {
+					el.className = '';
+					transform.translate = {
+						x: x + ev.deltaX,
+						y: y + ev.deltaY
+					};
+					requestElementUpdate();
+				}
+				function onPinch(ev) {
+					s =s || 1;
+					el.className = '';
+					transform.scale = s * ev.scale;
+					requestElementUpdate();
+				}
+				resetElement();
+				$(".cutBtn").click(function(){
+					start();
+					cutcut();
+				})
+			}	
+		}
+		
+		function cutcut(){
+			//console.log("x="+x+"===y="+y+"===s="+s);
+			var canvas = document.createElement("canvas");  
+			var ctx = canvas.getContext("2d");  
+			canvas.width = cutImgW;
+			canvas.height = cutImgH;
+			var top=($(window).height()-cutImgH)/2;
+			var left=(winW-cutImgW)/2;
+			var img=new Image();
+			img.src=tu;
+			img.onload=function(){
+				ctx.drawImage(img,x+(imgW-imgW*s)/2-left,y+(imgH-imgH*s)/2-top,imgW*s,imgH*s);
+				var okURL=canvas.toDataURL("image/jpeg");
+				//console.log(okURL);
+				var img2=new Image();
+				img2.src=okURL;
+				img2.onload=function(){
+					$(".okImg").attr("src",okURL);
+					$(".fileBox").addClass("on");
+					$(".cut").hide();	
+				}
+			}
+		}
+		//重新选择
+		$(".reChoose").click(function(){
+			$("#uploadfile").click();
+		})
+    </script>
+</body>
+</html>
